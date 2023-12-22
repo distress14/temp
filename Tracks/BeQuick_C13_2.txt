@@ -1,0 +1,72 @@
+./be-quick-or-be-dead-1 
+
+Be Quick Or Be Dead 1
+=====================
+
+Calculating key...
+You need a faster machine. Bye bye.
+
+
+IDA
+Main
+
+; Attributes: bp-based frame
+
+; int __fastcall main(int argc, const char **argv, const char **envp)
+public main
+main proc near
+
+var_10= qword ptr -10h
+var_4= dword ptr -4
+
+; __unwind {
+push    rbp
+mov     rbp, rsp
+sub     rsp, 10h
+mov     [rbp+var_4], edi
+mov     [rbp+var_10], rsi
+mov     eax, 0
+call    header
+mov     eax, 0
+call    set_timer
+mov     eax, 0
+call    get_key
+mov     eax, 0
+call    print_flag
+mov     eax, 0
+leave
+retn
+; } // starts at 400827
+main endp
+
+
+
+
+Header Function:
+
+; Attributes: bp-based frame
+
+public header
+header proc near
+
+var_4= dword ptr -4
+
+; __unwind {
+push    rbp
+mov     rbp, rsp
+sub     rsp, 10h
+mov     edi, offset title ; "Be Quick Or Be Dead 1"
+call    _puts
+mov     [rbp+var_4], 0
+jmp     short loc_400812
+
+loc_400812:
+mov     eax, [rbp+var_4]
+cmp     eax, 14h              //compare beatween eax and 20 d (14h Hex)
+jbe     short loc_400804      //76 cb 	JBE rel8 	Jump short if below or equal (CF=1 or ZF=1)
+
+So i need to reverse it, open Hex Dump and change 76 into 73
+
+//73 cb 	JAE rel8 	Jump short if above or equal (CF=0)
+or //73 cb 	JNB rel8 	Jump short if not below (CF=0)
+

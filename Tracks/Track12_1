@@ -1,0 +1,401 @@
+sudo apt install binutils
+
+cd Downloads/Challenge11/1_hello_world/
+
+strings hello_world
+
+ld 
+/lib64/ld-linux-x86-64.so.2
+libc.so.6
+gets
+puts
+__stack_chk_fail
+printf
+__cxa_finalize
+__libc_start_main
+GLIBC_2.4
+GLIBC_2.2.5
+_ITM_deregisterTMCloneTable
+__gmon_start__
+_ITM_registerTMCloneTable
+=i	 
+5b	 
+<Fu)
+<lu!
+AWAVI
+AUATL
+[]A\A]A^A_
+Contrgatulation! Flage{reverse_hello_world}
+Insert the right pin (4 alpha-numeric characters): 
+You inserted: %s
+Wrong password
+;*3$"
+GCC: (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0
+crtstuff.c
+deregister_tm_clones
+__do_global_dtors_aux
+completed.7697
+__do_global_dtors_aux_fini_array_entry
+frame_dummy
+__frame_dummy_init_array_entry
+hello_world.c
+__FRAME_END__
+__init_array_end
+_DYNAMIC
+__init_array_start
+__GNU_EH_FRAME_HDR
+_GLOBAL_OFFSET_TABLE_
+__libc_csu_fini
+_ITM_deregisterTMCloneTable
+puts@@GLIBC_2.2.5
+_edata
+__stack_chk_fail@@GLIBC_2.4
+printf@@GLIBC_2.2.5
+__libc_start_main@@GLIBC_2.2.5
+__data_start
+__gmon_start__
+__dso_handle
+_IO_stdin_used
+gets@@GLIBC_2.2.5
+__libc_csu_init
+__bss_start
+main
+print_flag
+__TMC_END__
+_ITM_registerTMCloneTable
+__cxa_finalize@@GLIBC_2.2.5
+.symtab
+.strtab
+.shstrtab
+.interp
+.note.ABI-tag
+.note.gnu.build-id
+.gnu.hash
+.dynsym
+.dynstr
+.gnu.version
+.gnu.version_r
+.rela.dyn
+.rela.plt
+.init
+.plt.got
+.text
+.fini
+.rodata
+.eh_frame_hdr
+.eh_frame
+.init_array
+.fini_array
+.dynamic
+.data
+.bss
+.comment
+
+Flage{reverse_hello_world}
+----------------------------------------------------------------------------------------------
+Con Radare2
+
+r2 hello_world
+
+aaaa
+
+
+tuba@NoneOfYourBusiness:~/Desktop/Reverse/Challenges12/1_hello_world$ r2 hello_world 
+Warning: run r2 with -e bin.cache=true to fix relocations in disassembly
+[0x00000630]> aaaa
+[x] Analyze all flags starting with sym. and entry0 (aa)
+[x] Analyze function calls (aac)
+[x] Analyze len bytes of instructions for references (aar)
+[x] Finding and parsing C++ vtables (avrr)
+[x] Type matching analysis for all functions (aaft)
+[x] Propagate noreturn information (aanr)
+[x] Finding function preludes
+[x] Enable constraint types analysis for variables
+[0x00000630]> afl
+0x00000630    1 43           entry0
+0x00000660    4 50   -> 40   sym.deregister_tm_clones
+0x000006a0    4 66   -> 57   sym.register_tm_clones
+0x000006f0    5 58   -> 51   sym.__do_global_dtors_aux
+0x00000620    1 6            sym.imp.__cxa_finalize
+0x00000730    1 10           entry.init0
+0x00000870    1 2            sym.__libc_csu_fini
+0x00000874    1 9            sym._fini
+0x00000800    4 101          sym.__libc_csu_init
+0x0000074d    9 171          main
+0x0000073a    1 19           sym.print_flag
+0x000005e0    1 6            sym.imp.puts
+0x000005b8    3 23           sym._init
+0x000005f0    1 6            sym.imp.__stack_chk_fail
+0x00000600    1 6            sym.imp.printf
+0x00000000    2 25           loc.imp._ITM_deregisterTMCloneTable
+0x00000610    1 6            sym.imp.gets
+
+
+
+----------------------------------------------------------------------------------------------
+
+
+gdb ./hello_world
+
+(gdb) disassemble main
+
++Dump of assembler code for function main:
+   0x000000000000074d <+0>:	push   %rbp
+   0x000000000000074e <+1>:	mov    %rsp,%rbp
+   0x0000000000000751 <+4>:	sub    $0x20,%rsp
+   0x0000000000000755 <+8>:	mov    %edi,-0x14(%rbp)
+   0x0000000000000758 <+11>:	mov    %rsi,-0x20(%rbp)
+   0x000000000000075c <+15>:	mov    %fs:0x28,%rax
+   0x0000000000000765 <+24>:	mov    %rax,-0x8(%rbp)
+   0x0000000000000769 <+28>:	xor    %eax,%eax
+   0x000000000000076b <+30>:	lea    0x146(%rip),%rdi        # 0x8b8
+   0x0000000000000772 <+37>:	call   0x5e0 <puts@plt>
+   0x0000000000000777 <+42>:	lea    -0xc(%rbp),%rax
+   0x000000000000077b <+46>:	mov    %rax,%rdi
+   0x000000000000077e <+49>:	mov    $0x0,%eax
+   0x0000000000000783 <+54>:	call   0x610 <gets@plt>
+   0x0000000000000788 <+59>:	lea    -0xc(%rbp),%rax
+   0x000000000000078c <+63>:	mov    %rax,%rsi
+   0x000000000000078f <+66>:	lea    0x156(%rip),%rdi        # 0x8ec
+   0x0000000000000796 <+73>:	mov    $0x0,%eax
+   0x000000000000079b <+78>:	call   0x600 <printf@plt>
+   0x00000000000007a0 <+83>:	movzbl -0xc(%rbp),%eax
+   0x00000000000007a4 <+87>:	cmp    $0x46,%al
+   0x00000000000007a6 <+89>:	jne    0x7d1 <main+132>
+--Type <RET> for more, q to quit, c to continue without paging--+c
+   0x00000000000007a8 <+91>:	movzbl -0xb(%rbp),%eax
+   0x00000000000007ac <+95>:	cmp    $0x6c,%al
+   0x00000000000007ae <+97>:	jne    0x7d1 <main+132>
+   0x00000000000007b0 <+99>:	movzbl -0xa(%rbp),%eax
+   0x00000000000007b4 <+103>:	cmp    $0x34,%al
+   0x00000000000007b6 <+105>:	jne    0x7d1 <main+132>
+   0x00000000000007b8 <+107>:	movzbl -0x9(%rbp),%eax
+   0x00000000000007bc <+111>:	cmp    $0x67,%al
+   0x00000000000007be <+113>:	jne    0x7d1 <main+132>
+   0x00000000000007c0 <+115>:	mov    $0x0,%eax
+   0x00000000000007c5 <+120>:	call   0x73a <print_flag>
+   0x00000000000007ca <+125>:	mov    $0x0,%eax
+   0x00000000000007cf <+130>:	jmp    0x7e2 <main+149>
+   0x00000000000007d1 <+132>:	lea    0x126(%rip),%rdi        # 0x8fe
+   0x00000000000007d8 <+139>:	call   0x5e0 <puts@plt>
+   0x00000000000007dd <+144>:	mov    $0x0,%eax
+   0x00000000000007e2 <+149>:	mov    -0x8(%rbp),%rdx
+   0x00000000000007e6 <+153>:	xor    %fs:0x28,%rdx
+   0x00000000000007ef <+162>:	je     0x7f6 <main+169>
+   0x00000000000007f1 <+164>:	call   0x5f0 <__stack_chk_fail@plt>
+   0x00000000000007f6 <+169>:	leave
+   0x00000000000007f7 <+170>:	ret
+End of assembler dump.
+
+   0x00000000000007bc <+111>:	cmp    $0x67,%al
+   0x00000000000007be <+113>:	jne    0x7d1 <main+132>
+   0x00000000000007c0 <+115>:	mov    $0x0,%eax
+   0x00000000000007c5 <+120>:	call   0x73a <print_flag>
+
+something (eax: 32-bit Data register) is moved into R0 and a jumpNotEqual is performed after a comparison (between the DataRegister Al and some Register at Hex 67.
+
+I presume that the flag is obtained once the print_flag function is called. To call it, we need to change the JumpNotEqual and reverse it, to obtain an JumpIfEqual.
+
+Normally, only if you insert the right pin (cmp right_pin & saved_pin) you obtain access, and if you try to guess the pin, you probably income into an Denied Access.
+
+But we can reverse it
+
+Jne has 75 as ID, Je 74
+
+IDA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

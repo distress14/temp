@@ -1,0 +1,29 @@
+.text:0000000000401DF2 var_2C          = dword ptr -2Ch
+.text:0000000000401DF2 tloc            = qword ptr -28h
+			
+			
+.text:0000000000401E47                 mov     edx, ecx
+.text:0000000000401E49                 mov     [rbp+var_2C], edx
+.text:0000000000401E4C                 mov     edx, [rbp+var_2C]
+.text:0000000000401E4F                 imul    edx, 270Fh
+.text:0000000000401E55                 sub     eax, edx
+.text:0000000000401E57                 mov     [rbp+var_2C], eax
+.text:0000000000401E5A                 lea     rdi, aPleaseInsertTh ; "Please insert the OTP 4 digit pin to au"...
+.text:0000000000401E61                 call    puts
+.text:0000000000401E66                 lea     rax, [rbp+var_30]
+.text:0000000000401E6A                 mov     rsi, rax
+.text:0000000000401E6D                 lea     rdi, aD         ; "%d"               //si aspetta un intero come input
+.text:0000000000401E74                 mov     eax, 0
+.text:0000000000401E79                 call    __isoc99_scanf                        //Calls userInput
+.text:0000000000401E7E                 mov     eax, [rbp+var_30]                     //copy the UserInput in eax register
+.text:0000000000401E81                 cmp     [rbp+var_2C], eax                      //and compare it with something that's stored at rbp+var_2C, @ BasePoiter-2Ch (hex) => ZF=0, SF=1??
+.text:0000000000401E84                 jnz      short loc_401EE3                        //If they are not equal (ZF=0) it jumps at loc_401EE3 =>  "Wrong PIN!!! The right one was %04i \n
+.text:0000000000401E86                 lea     rdi, aPinCorrectHere ; "PIN Correct! Here your bank account:"
+.text:0000000000401E8D                 call    puts
+.text:0000000000401E92                 mov     rax, 6060674C50565B71h
+.text:0000000000401E9C                 mov     rdx, 7442735565645522h
+
+We need just to change the JnZ into JZ
+
+
+

@@ -1,0 +1,53 @@
+Open funmail with IDA
+
+Used IDA to understand easly the program. I noticed that there's no call to the showEmails function. So i try to jump to it using gdb
+
+Open funmail with gdb
+
+gdb ./funmail2.0
+
+(gdb) break main
+Breakpoint 1 at 0xb33
+
+
+(gdb) run
+Starting program: /home/tuba/Desktop/CTFS/Challenges14/Challenges/1_Funmail 2.0/funmail2.0 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, 0x56555b33 in main ()
+
+
+(gdb) jump showEmails 
+Continuing at 0x56555a30.
+You have 1 unread email.
+1) Read Email
+2) Quit
+>> 
+
+>> 1
+--------------------------------------
+From:	Leeroy Jenkins
+To:	whoisjohngalt
+Subject: RE: I need a flag
+
+Hey John it's Leeroy.
+You were asking about a fun flag to use in your next challenge
+and I think I got one. Tell me what you think of:
+TUCTF{l0c4l_<_r3m073_3x3cu710n}
+Get back to me as soon as you can. Thanks!
+--------------------------------------
+[Inferior 1 (process 8698) exited normally]
+
+
+Here's our flag: TUCTF{l0c4l_<_r3m073_3x3cu710n}
+
+
+
+
+
+
+
+
+
+

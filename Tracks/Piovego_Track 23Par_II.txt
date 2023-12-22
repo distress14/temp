@@ -1,0 +1,193 @@
+chmod -R +x ./PiovegoRecipe
+tuba@NoneOfYourBusiness:~/Desktop/Esami_Parziali Reverse_PWN/23Par_II/STUDENT/PiovegoRecipe$ ./PiovegoRecipe 
+
+
+    █ ▄▄  ▄█ ████▄     ▄   ▄███▄     ▄▀  ████▄ 
+    █   █ ██ █   █      █  █▀   ▀  ▄▀    █   █ 
+    █▀▀▀  ██ █   █ █     █ ██▄▄    █ ▀▄  █   █ 
+    █     ▐█ ▀████  █    █ █▄   ▄▀ █   █ ▀████ 
+     █     ▐         █  █  ▀███▀    ███        
+      ▀               █▐                       
+                      ▐                        
+
+
+Dear Student, we have just received your application for the position of cook for the piovego canteen. 
+We need to check you're ready for this job...
+First! What is the most appreaciated plate of our canteen? 
+
+In main:
+mov     rsi, rax
+lea     rdi, aS         ; "%s"
+mov     eax, 0
+call    ___isoc99_scanf      //UserInput is asked by calling iso..scanf
+lea     rax, [rbp+s1]        //Load memory for the array s1 
+lea     rsi, s2         ; "Patate-Prezzemolate"        //Load memory for s2, the "correct password"
+mov     rdi, rax        ; s1               //Copy s1 into register
+call    _strcmp                            //compare s1 & s2. If s1-s2 == 0 -> They are equal == ZF(ZeroFlag) = 1
+test    eax, eax                           //eax has value 0 set before the scanf call
+jz      short loc_401526                  //Jz == Jump If Zero, so (ZeroFlag = 1)
+
+Here more in detail:
+---------------------------------------------------------------------------------------------------
+CMP subtracts the operands and sets the flags. Namely, it sets the zero flag if the difference is zero (operands are equal).
+
+TEST sets the zero flag, ZF, when the result of the AND operation is zero. If two operands are equal, their bitwise AND is zero when both are zero. TEST also sets the sign flag, SF, when the most significant bit is set in the result, and the parity flag, PF, when the number of set bits is even.
+
+JE [Jump if Equals] tests the zero flag and jumps if the flag is set. JE is an alias of JZ [Jump if Zero] so the disassembler cannot select one based on the opcode. JE is named such because the zero flag is set if the arguments to CMP are equal.
+
+---------------------------------------------------------------------------------------------------
+
+Great! Now let's see if you know how to prepare them :)
+How many potatoes do you need for 100 people? 
+
+loc_401526:
+lea     rdi, aGreatNowLetSSe ; "\nGreat! Now let's see if you know how "...
+mov     eax, 0
+call    _printf
+mov     eax, 0
+call    check_quantities     //Check_Quantities is called, so we need to check it
+test    eax, eax
+jnz     short loc_40155B
+
+-------
+public check_quantities
+check_quantities proc near
+
+var_10= dword ptr -10h
+var_C= dword ptr -0Ch
+var_8= qword ptr -8
+
+; __unwind {
+push    rbp
+mov     rbp, rsp
+sub     rsp, 10h
+mov     rax, fs:28h
+mov     [rbp+var_8], rax
+xor     eax, eax
+lea     rdi, aHowManyPotatoe ; "\nHow many potatoes do you need for 100"...
+mov     eax, 0
+call    _printf
+lea     rax, [rbp+var_10]
+mov     rsi, rax
+lea     rdi, aD         ; "%d"        //Qua si aspetta un intero dall'user
+mov     eax, 0
+call    ___isoc99_scanf          //Chiesto qua
+mov     edx, [rbp+var_10]       //here is moving something from [rbp (basePtr) + dword ptr -10h] into edx
+mov     eax, edx                   //Saves a copy in edx and copying it in eax
+add     eax, eax                  //here eax*2
+add     eax, edx                  //here Neax + edx
+cmp     eax, 0A8h                 //compare eax == 168 (hex->dec)
+jnz     short loc_40140C
+
+168 - edx = 168/2 
+168- edx = 84
+edx = 168-84 == 84
+
+Moltiplica per 2
+Aggiungi edx  == 168/3 ci ho perso troppo tempo
+
+--------------------------------------
+
+Good, and how much parsley? 
+
+lea     rdi, aGoodAndHowMuch ; "\nGood, and how much parsley? "
+mov     eax, 0
+call    _printf
+lea     rax, [rbp+var_C]
+mov     rsi, rax
+lea     rdi, aD         ; "%d"
+mov     eax, 0
+call    ___isoc99_scanf         //UserInput called
+mov     eax, [rbp+var_C]
+cmp     eax, 7Bh ; '{'         //7Bh == 123 
+jnz     short loc_40140C
+-------------------------------------------------------------
+
+Wow, it seems you have studied!! :)
+But now comes the really hard question:
+
+
+What is the super iper mega special and secret ingredient?? 
+
+; Attributes: bp-based frame
+
+public check_secret
+check_secret proc near
+
+s= byte ptr -20h
+var_1F= byte ptr -1Fh
+var_1E= byte ptr -1Eh
+var_1D= byte ptr -1Dh
+var_1C= byte ptr -1Ch
+var_8= qword ptr -8
+
+; __unwind {
+push    rbp
+mov     rbp, rsp
+sub     rsp, 20h
+mov     rax, fs:28h
+mov     [rbp+var_8], rax
+xor     eax, eax
+lea     rdi, format     ; "\nWhat is the super iper mega special a"...
+mov     eax, 0
+call    _printf
+lea     rax, [rbp+s]
+mov     rsi, rax
+lea     rdi, aS         ; "%s"         //Asked probably for a chr input
+mov     eax, 0
+call    ___isoc99_scanf           //Called UserInput
+lea     rax, [rbp+s]                  //Allocate space for the input
+mov     rdi, rax        ; s               //Copy the input in rdi  
+call    _strlen
+cmp     rax, 5                  //Is doing an comparison between the string lenght of the user input and 5
+jz      short loc_40131E     
+
+I thing is good abbastanza to say that we need a string of lenght 5
+
+loc_40131E:
+movzx   eax, [rbp+s]         //Here is calculating the next chr in the "strArray"
+cmp     al, 53h ; 'S'              //First chr needs to be S (Check just in case that Hex 53h is rly 'S' chr)
+jz      short loc_40132D
+
+loc_40132D:
+movzx   eax, [rbp+var_1E]
+cmp     al, 65h ; 'e'
+jz      short loc_40133C
+
+loc_40133C:
+movzx   eax, [rbp+var_1C]
+cmp     al, 54h ; 'T'
+jz      short loc_40134B
+
+loc_40134B:
+movzx   eax, [rbp+var_1F]
+cmp     al, 77h ; 'w'
+jz      short loc_40135A
+
+loc_40135A:
+movzx   eax, [rbp+var_1D]
+cmp     al, 34h ; '4'
+jz      short loc_401369
+
+
+So the password must be SeTw4. I followed this path because it conduces to the only mov eax, 1.
+
+What is the super iper mega special and secret ingredient?? SeTw4
+Do you really think that? OMG!! GET OUT!!!
+
+Yeah, I didn't check the Order of the comparisons.
+
+s= byte ptr -20h   S
+var_1F= byte ptr -1Fh  w
+var_1E= byte ptr -1Eh   e
+var_1D= byte ptr -1Dh    4
+var_1C= byte ptr -1Ch    T
+var_8= qword ptr -8
+
+Let's try this order. Yeah, make sense: Swe4T
+
+What is the super iper mega special and secret ingredient?? Swe4T
+Yes YeS YESS! Sweat and hard work are the ingredients for success!! Welcome on board!!!
+SPRITZ{D15gUsT!nG!!} 
+
+

@@ -1,0 +1,48 @@
+chmod -R +x ./collegeAdmission
+tuba@NoneOfYourBusiness:~/Desktop/Esami_Parziali Reverse_PWN/23Par_II/STUDENT/collegeAdmission$ ./collegeAdmission 
+
+
+
+.'||''''|   ||`               .|'''',    '||'||`            
+ ||   .    ||                ||          || ||                 
+ ||'''|.|''||.|''|`||''|,    ||    .|''|,|| ||.|''|.|''|.|''|, 
+ ||    ||  ||||..||||  ||    ||    ||  |||| ||||..|||  |||..|| 
+.||....`|..||`|....||  ||.   `|....`|..|.||.||`|...`|..|`|...  
+                                                       ||      
+                                                    `..|'      
+
+
+Welcome to the Eden College, an Elité School that only the best can attend!
+We are ready to start your interview, are you ready? [Y]/n  y 
+
+
+Could you tell me your name, surname, and address? Not at all ELEGANTO!
+
+; __unwind {
+push    rbp
+mov     rbp, rsp
+sub     rsp, 60h
+mov     [rbp+var_54], edi
+mov     [rbp+var_60], rsi
+mov     rax, fs:28h
+mov     [rbp+var_8], rax
+xor     eax, eax
+mov     eax, 0
+call    print_intro
+lea     rdi, aWelcomeToTheEd ; "Welcome to the Eden College, an Elit"
+call    _puts
+lea     rdi, aWeAreReadyToSt ; "We are ready to start your interview, a"...
+mov     eax, 0
+call    _printf
+lea     rax, [rbp+var_49]
+mov     rsi, rax
+lea     rdi, aC         ; "%c"      
+mov     eax, 0
+call    ___isoc99_scanf          //Calling scanf UserInput
+movzx   eax, [rbp+var_49]          //calculate distance on array???
+cmp     al, 6Eh ; 'n'                   //compare userInput with n (6Eh in Hex)
+jnz     short loc_4017FE 
+
+I can patch the Binary, so i patched jnz with jz (changed in the Hex Dump 75(Jnz ProcID) with 74 (Jz procID)
+
+ToDO

@@ -1,0 +1,17 @@
+./no_rop 
+
+ Enter the password : 
+wedw
+Wrong password. Status0
+
+
+
+Patched Jz with Jnz in IDA (74->75)
+
+./no_rop 
+
+ Enter the password : 
+d
+Correct password! 
+Flag={hello_world_pwn}
+

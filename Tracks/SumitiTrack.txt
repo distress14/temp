@@ -1,0 +1,170 @@
+./sumiti 
+
+░██████╗██╗░░░██╗███╗░░░███╗██╗████████╗██╗
+██╔════╝██║░░░██║████╗░████║██║╚══██╔══╝██║
+╚█████╗░██║░░░██║██╔████╔██║██║░░░██║░░░██║
+░╚═══██╗██║░░░██║██║╚██╔╝██║██║░░░██║░░░██║
+██████╔╝╚██████╔╝██║░╚═╝░██║██║░░░██║░░░██║
+╚═════╝░░╚═════╝░╚═╝░░░░░╚═╝╚═╝░░░╚═╝░░░╚═╝
+
+
+
+Welcome to Sumiti!
+We have many customers these days... Did you make a reservation? What's your name? 
+
+
+SumitiLover1234
+
+Welcome SumitiLover1234!
+To be sure you really are a Sumiti Fan, which sandwitch do you want?
+Insert sandwitch: 
+
+
+
+public check_sandwitch::
+
+call    ___isoc99_scanf                   //userInput asked (s)
+lea     rax, [rbp+s]
+mov     rdi, rax        ; s
+call    _strlen                               //str.length of s
+cmp     rax, 8                 //str.length needs to be 8
+jz      short loc_141B 
+
+
+movzx   eax, [rbp+var_1B]
+cmp     al, 35h ; '5'
+jz      short loc_142A
+
+
+loc_142A:
+movzx   eax, [rbp+s]                         //here the first chr
+cmp     al, 46h ; 'F'
+jz      short loc_1439
+
+
+loc_1439:
+movzx   eax, [rbp+var_1E]
+cmp     al, 6Eh ; 'n'
+jz      short loc_1448
+
+loc_1448:
+movzx   eax, [rbp+var_1C]
+cmp     al, 61h ; 'a'
+jz      short loc_1457
+
+loc_1457:
+movzx   eax, [rbp+var_1A]
+cmp     al, 31h ; '1'
+jz      short loc_1466
+
+
+loc_1466:
+movzx   eax, [rbp+var_1F]
+cmp     al, 34h ; '4'
+jz      short loc_1475
+
+loc_1475:
+movzx   eax, [rbp+var_19]
+cmp     al, 41h ; 'A'
+jz      short loc_1484
+
+
+loc_1484:
+movzx   eax, [rbp+var_1D]
+cmp     al, 54h ; 'T'
+jz      short loc_1493
+
+
+It checks every chr of the UserInput, but not contiguessly //di seguito
+
+s= byte ptr -20h        F
+var_1F= byte ptr -1Fh   4
+var_1E= byte ptr -1Eh   n
+var_1D= byte ptr -1Dh   T
+var_1C= byte ptr -1Ch   a
+var_1B= byte ptr -1Bh   5
+var_1A= byte ptr -1Ah   1
+var_19= byte ptr -19h   A
+var_8= qword ptr -8
+
+So, there's the correct input: F4nTa51A
+
+
+Welcome SumitiLover1234!
+To be sure you really are a Sumiti Fan, which sandwitch do you want?
+Insert sandwitch: F4nTa51A
+
+Oh I knew you where here for a "Panino Fantasia"!
+Now... These are the genuine italian ingredients the fantasy master can use today:
+0 - Salame ungherese
+1 - Gorgonzola
+2 - Cetriolini
+3 - Baccalà
+4 - Funghi
+5 - Radicchio
+6 - Prosciutto crudo
+7 - Salsa tartara
+8 - Guanciale pepato
+9 - Maionese
+Your panino is ready, but if you want it, guess IN ORDER the FOUR ingredients he used, writing them as a 4 digit number (e.g., 0123): 
+
+
+so...
+lea     rdi, aYourPaninoIsRe ; "Your panino is ready, but if you want i"...
+mov     eax, 0
+call    _printf
+lea     rax, [rbp+var_48]         
+mov     rsi, rax
+lea     rdi, aD         ; "%d"    //it expects an int #
+mov     eax, 0
+call    ___isoc99_scanf          //asking UserInput
+mov     eax, [rbp+var_48]         //copying it into eax
+cmp     [rbp+var_44], eax         //and cmp with some value at +var_44
+jnz     short loc_172C
+
+trying random guess:
+
+Your panino is ready, but if you want it, guess IN ORDER the FOUR ingredients he used, writing them as a 4 digit number (e.g., 0123): 0168
+Oh no, why would he use those ingredients??? The correct ones were 7843 
+
+I don't thing so
+
+
+gbd
+
+Fail at least 1 time the program in gdb
+
+il file è un eseguibile PIE, pertanto è in atto una rilocazione dinamica degli indirizzi
+
+Si deve eseguire e fallire il programma almeno una volta. Poi avremo gli indirizzo con 0x0000555555555.
+
+disas main
+
+0x000055555555567e <+223>:	call   0x5555555554ae <create_panino>
+   0x0000555555555683 <+228>:	mov    %eax,-0x44(%rbp)
+   0x0000555555555686 <+231>:	lea    0xf53(%rip),%rdi       
+   0x000055555555568d <+238>:	mov    $0x0,%eax
+
+
+ Create panino generates a random "pin"
+ add a breakpoint here 0x0000555555555683 to see what's passed to reg eax
+ 
+ 
+And now...
+ 
+7 - Salsa tartara
+8 - Guanciale pepato
+9 - Maionese
+
+Breakpoint 3, 0x0000555555555683 in main ()
+(gdb) print $eax
+$1 = 8739
+
+Here's our pin
+
+Your panino is ready, but if you want it, guess IN ORDER the FOUR ingredients he used, writing them as a 4 digit number (e.g., 0123): 8739
+Oh you did it!!! Here your wonderful panino:
+
+SPRITZ{TwO_EuRo_PleAs3} 
+
+
